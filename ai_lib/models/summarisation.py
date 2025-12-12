@@ -1,5 +1,3 @@
-# ai_lib/models/summarisation.py
-
 from __future__ import annotations
 from typing import Protocol
 
