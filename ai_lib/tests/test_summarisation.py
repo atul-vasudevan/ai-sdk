@@ -25,7 +25,9 @@ def test_simple_summariser_handles_empty_input():
     assert "No content" in summary
 
 
-def test_get_text_summariser_returns_simple_by_default():
+def test_get_text_summariser_returns_simple_by_default(monkeypatch):
+    # Explicitly set to "simple" to ensure default behavior
+    monkeypatch.setenv("AI_LIB_SUMMARISATION_BACKEND", "simple")
     summariser = get_text_summariser()
     assert isinstance(summariser, SimpleTextSummariser)
 

@@ -1,3 +1,6 @@
+import os
+import pytest
+
 from ai_lib import AIClient
 
 from deepeval.metrics import GEval
@@ -5,7 +8,12 @@ from deepeval.test_case import LLMTestCase
 from deepeval import assert_test
 
 
+@pytest.mark.skipif(
+    not os.getenv("OPENAI_API_KEY"),
+    reason="OPENAI_API_KEY not set, skipping DeepEval test",
+)
 def test_summarise_text_quality():
+    """LLM-based evaluation of summary quality using DeepEval."""
     client = AIClient(app_name="deepeval-test")
 
     original_text = (

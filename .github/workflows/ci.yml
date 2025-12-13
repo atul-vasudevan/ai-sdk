@@ -34,7 +34,7 @@ jobs:
           pip install -e ".[dev]"
 
       - name: Run unit tests
-        run: pytest tests
+        run: pytest ai_lib/tests
 
       - name: Run DeepEval tests
         run: pytest eval
