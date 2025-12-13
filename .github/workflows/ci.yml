@@ -38,10 +38,3 @@ jobs:
 
       - name: Run DeepEval tests
         run: pytest eval
-
-      # Placeholder: where their GitHub "code agent" would plug in
-      - name: Run PetSure Code Agent
-        if: env.CODE_AGENT_API_KEY != ''
-        uses: petsure/code-agent-action@v1
-        env:
-          CODE_AGENT_API_KEY: ${{ secrets.CODE_AGENT_API_KEY }}
