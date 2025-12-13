@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  test-and-eval:
+    runs-on: ubuntu-latest
+
+    env:
+      # Force simple backend in CI to keep things fast/deterministic
+      AI_LIB_SUMMARISATION_BACKEND: simple
+
+      # Langfuse and future code-agent keys: these can be added in repo settings
+      LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+      LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+      LANGFUSE_HOST: ${{ secrets.LANGFUSE_HOST }}
+      CODE_AGENT_API_KEY: ${{ secrets.CODE_AGENT_API_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Run unit tests
+        run: pytest tests
+
+      - name: Run DeepEval tests
+        run: pytest eval
+
+      # Placeholder: where their GitHub "code agent" would plug in
+      - name: Run PetSure Code Agent
+        if: env.CODE_AGENT_API_KEY != ''
+        uses: petsure/code-agent-action@v1
+        env:
+          CODE_AGENT_API_KEY: ${{ secrets.CODE_AGENT_API_KEY }}
