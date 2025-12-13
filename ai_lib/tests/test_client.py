@@ -1,5 +1,7 @@
+import os
 from ai_lib import AIClient
 from ai_lib.models.summarisation import SimpleTextSummariser
+from ai_lib import AIClient
 
 
 def test_ai_client_health_returns_expected_structure():
@@ -43,3 +45,13 @@ def test_ai_client_uses_underlying_summariser(monkeypatch):
     summary = client.summarise_text("some input text")
 
     assert summary == "FAKE SUMMARY"
+
+def test_summarise_text_works_without_langfuse_config(monkeypatch):
+    monkeypatch.delenv("LANGFUSE_SECRET_KEY", raising=False)
+    monkeypatch.delenv("LANGFUSE_PUBLIC_KEY", raising=False)
+
+    client = AIClient(app_name="test-app")
+    summary = client.summarise_text("Some text to summarise.")
+
+    assert isinstance(summary, str)
+    assert len(summary) > 0

@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, Optional
 
+from ai_lib.tracing import traced_operation
+
 from .models.summarisation import get_text_summariser, TextSummariser
 
 
@@ -13,7 +15,8 @@ class AIClient:
 
     - summarise_text(text): generic text summarisation
 
-    Internally it uses a pluggable summariser implementation
+    Internally it uses a pluggable summariser implementation and wraps operations in a 
+    traced operation context so that when Langfuse is installed, operations are traced.
     """
 
     def __init__(self, app_name: str | None = None):
@@ -36,4 +39,18 @@ class AIClient:
         :param metadata: Optional metadata dictionary;
         :return: A summary string.
         """
-        return self._summariser.summarise(text)
+        combined_metadata: Dict[str, Any] = {"app_name": self.app_name}
+        if metadata:
+            combined_metadata.update(metadata)
+
+        # Avoid logging excessively large inputs into traces.
+        trace_inputs = {"text": (text[:5000] if text is not None else "")}
+
+        with traced_operation(
+            name="summarise_text",
+            inputs=trace_inputs,
+            metadata=combined_metadata,
+        ):
+            summary = self._summariser.summarise(text)
+
+        return summary
