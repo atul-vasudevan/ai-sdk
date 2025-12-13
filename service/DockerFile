@@ -1,0 +1,37 @@
+FROM python:3.11-slim
+
+# Prevent Python from writing .pyc files and enable stdout flushing
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Install build tools only if needed; you can remove if not required
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+  && rm -rf /var/lib/apt/lists/*
+
+# Copy library project files (ai_lib package + pyproject) into the image
+COPY pyproject.toml README.md ./
+COPY ai_lib ./ai_lib
+
+# Install the ai_lib package
+RUN pip install --upgrade pip && pip install .
+
+# Copy the service code and its requirements
+COPY service/requirements.txt ./service/requirements.txt
+RUN pip install -r service/requirements.txt
+
+COPY service/app ./service/app
+
+EXPOSE 8000
+
+ENV AI_LIB_SUMMARISATION_BACKEND=simple
+
+# ENV LANGFUSE_SECRET_KEY=...
+# ENV LANGFUSE_PUBLIC_KEY=...
+# ENV LANGFUSE_HOST=https://cloud.langfuse.com
+
+WORKDIR /app/service
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

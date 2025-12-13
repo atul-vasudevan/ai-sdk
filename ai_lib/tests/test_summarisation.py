@@ -26,7 +26,6 @@ def test_simple_summariser_handles_empty_input():
 
 
 def test_get_text_summariser_returns_simple_by_default(monkeypatch):
-    # Explicitly set to "simple" to ensure default behavior
     monkeypatch.setenv("AI_LIB_SUMMARISATION_BACKEND", "simple")
     summariser = get_text_summariser()
     assert isinstance(summariser, SimpleTextSummariser)
@@ -35,7 +34,6 @@ def test_get_text_summariser_returns_simple_by_default(monkeypatch):
 def test_factory_returns_hf_summariser_when_env_set(monkeypatch):
     monkeypatch.setenv("AI_LIB_SUMMARISATION_BACKEND", "hf")
 
-    # Mock pipeline import to avoid real hugging face downloads
     monkeypatch.setattr(
         "ai_lib.models.summarisation.pipeline",
         lambda *args, **kwargs: lambda t, **kw: [{"summary_text": "mock"}],
