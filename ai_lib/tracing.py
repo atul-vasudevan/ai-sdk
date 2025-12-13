@@ -70,25 +70,25 @@ def traced_operation(
         yield None
         return
 
-    trace = lf.trace(
+    # Use start_as_current_span() which is a context manager in the new API
+    with lf.start_as_current_span(
         name=name,
         input=inputs or {},
         metadata=metadata or {},
-    )
-
-    try:
-        yield trace
-        trace.update(
-            output={"status": "success"},
-        )
-    except Exception as exc:  # noqa: BLE001 - we want to capture any error
-        trace.update(
-            output={
-                "status": "error",
-                "error": str(exc),
-            },
-            level="ERROR",
-        )
-        raise
-    finally:
-        lf.flush()
+    ) as span:
+        try:
+            yield span
+            span.update(
+                output={"status": "success"},
+            )
+        except Exception as exc:  # noqa: BLE001 - we want to capture any error
+            span.update(
+                output={
+                    "status": "error",
+                    "error": str(exc),
+                },
+                level="ERROR",
+            )
+            raise
+        finally:
+            lf.flush()
