@@ -1,5 +1,9 @@
-from ai_lib.models.summarisation import SimpleTextSummariser, get_text_summariser
-
+import os
+from ai_lib.models.summarisation import (
+    SimpleTextSummariser,
+    HFTextSummariser,
+    get_text_summariser,
+)
 
 def test_simple_summariser_returns_non_empty_summary():
     summariser = SimpleTextSummariser()
@@ -24,3 +28,16 @@ def test_simple_summariser_handles_empty_input():
 def test_get_text_summariser_returns_simple_by_default():
     summariser = get_text_summariser()
     assert isinstance(summariser, SimpleTextSummariser)
+
+
+def test_factory_returns_hf_summariser_when_env_set(monkeypatch):
+    monkeypatch.setenv("AI_LIB_SUMMARISATION_BACKEND", "hf")
+
+    # Mock pipeline import to avoid real hugging face downloads
+    monkeypatch.setattr(
+        "ai_lib.models.summarisation.pipeline",
+        lambda *args, **kwargs: lambda t, **kw: [{"summary_text": "mock"}],
+    )
+
+    summariser = get_text_summariser()
+    assert isinstance(summariser, HFTextSummariser)

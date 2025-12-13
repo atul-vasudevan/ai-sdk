@@ -70,7 +70,6 @@ def traced_operation(
         yield None
         return
 
-    # Use start_as_current_span() which is a context manager in the new API
     with lf.start_as_current_span(
         name=name,
         input=inputs or {},
