@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Install build tools only if needed; you can remove if not required
+# Install build tools only if needed;
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
   && rm -rf /var/lib/apt/lists/*
@@ -27,10 +27,6 @@ COPY service/app ./service/app
 EXPOSE 8000
 
 ENV AI_LIB_SUMMARISATION_BACKEND=simple
-
-# ENV LANGFUSE_SECRET_KEY=...
-# ENV LANGFUSE_PUBLIC_KEY=...
-# ENV LANGFUSE_HOST=https://cloud.langfuse.com
 
 WORKDIR /app/service
 
