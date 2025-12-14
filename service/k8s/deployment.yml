@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-summarise-service
+  labels:
+    app: ai-summarise-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ai-summarise-service
+  template:
+    metadata:
+      labels:
+        app: ai-summarise-service
+    spec:
+      containers:
+        - name: ai-summarise-service
+          image: ai-summarise-service:latest
+          imagePullPolicy: Never  # Use local image instead of pulling from registry
+          ports:
+            - containerPort: 8000
+          env:
+            - name: AI_LIB_SUMMARISATION_BACKEND
+              value: "simple" # or "hf" if you want HF in prod
+            - name: LANGFUSE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secrets
+                  key: secret-key
+            - name: LANGFUSE_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secrets
+                  key: public-key
+            - name: LANGFUSE_HOST
+              value: "https://cloud.langfuse.com"

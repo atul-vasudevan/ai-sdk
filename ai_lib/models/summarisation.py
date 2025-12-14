@@ -52,7 +52,6 @@ class HFTextSummariser:
     Summariser backed by a Hugging Face Transformers model.
 
     Loads a summarisation pipeline once and reuses it.
-    Requires 'transformers' to be installed.
     """
 
     def __init__(self, model_name: str = "sshleifer/distilbart-cnn-12-6"):

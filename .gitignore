@@ -10,3 +10,6 @@ venv/
 .vscode/
 .pytest_cache/
 .DS_Store
+
+# Kubernetes secrets
+service/k8s/secrets.yml

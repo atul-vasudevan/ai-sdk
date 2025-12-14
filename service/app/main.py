@@ -13,7 +13,7 @@ app = FastAPI(
 )
 
 # Create a single shared client instance
-client = AIClient(app_name="service-example")
+client = AIClient(app_name="service")
 
 
 class SummariseRequest(BaseModel):
