@@ -21,7 +21,7 @@ A modular Python library that serves as the foundation for AI capabilities acros
 - ⚙️ Clean configuration patterns
 - 🧰 Reusable utilities for downstream services
 
-### **2. `service/` — Example FastAPI Microservice**
+### **2. `service/` — FastAPI Microservice**
 A lightweight microservice that consumes the SDK to expose AI capabilities via REST API:
 - `GET /health` — Health check
 - `POST /summarise` — Text summarisation endpoint
