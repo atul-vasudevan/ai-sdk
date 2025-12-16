@@ -11,18 +11,20 @@
 
 ## 🔍 Overview
 
-This repository contains two core components designed to simulate a scalable internal AI platform:
+This repository demonstrates a **reusable AI platform architecture** with two core components:
 
 ### **1. `ai_lib/` — Internal Python AI SDK**
-A modular Python library that serves as the foundation for AI capabilities across the organization. It provides:
+A modular, reusable Python library that serves as the foundation for AI capabilities across the organization. It provides:
 - 🛠 A unified `AIClient` interface
 - 📝 Text summarisation capability (`simple` and HuggingFace backends)
 - 🔭 Built-in observability via **Langfuse**
 - ⚙️ Clean configuration patterns
 - 🧰 Reusable utilities for downstream services
 
-### **2. `service/` — FastAPI Microservice**
-A lightweight microservice that consumes the SDK to expose AI capabilities via REST API:
+**In production:** This would be a **separate repository** published as a Python package (PyPI, Artifactory, etc.) that multiple services consume.
+
+### **2. `service/` — FastAPI Microservice (Consumer)**
+A lightweight microservice that demonstrates how services consume the SDK:
 - `GET /health` — Health check
 - `POST /summarise` — Text summarisation endpoint
 
