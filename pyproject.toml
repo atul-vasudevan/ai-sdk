@@ -21,6 +21,7 @@ hf = ["transformers"]
 dev = [
   "pytest",
   "deepeval",
+  "rouge-score",
 ]
 
 [tool.setuptools.packages.find]
