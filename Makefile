@@ -43,6 +43,7 @@ test: test-unit test-eval
 
 test-unit:
 	pytest ai_lib/tests -v
+	pytest service/app/tests -v
 
 test-eval:
 	export AI_LIB_SUMMARISATION_BACKEND=simple && pytest eval -v
