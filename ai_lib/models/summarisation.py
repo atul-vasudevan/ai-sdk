@@ -66,20 +66,27 @@ class HFTextSummariser:
         if not text.strip():
             return "No content provided to summarise."
 
-        # Get actual token count
-        # The pipeline's tokenizer is accessible via the model's tokenizer
+        # Get token count to scale summary length
         tokenizer = self._pipe.tokenizer
         input_tokens = len(tokenizer.encode(text, add_special_tokens=True))
-        
-        # max length is capped at 200 for longer texts
-        # min_length to be at most half of max_length, but cap at 30
-        max_length = min(200, max(input_tokens - 5, 10))
-        min_length = min(30, max(max_length // 2, 5))
+
+        # Length strategy tuned for short inputs (to avoid returning the original text)
+        if input_tokens < 50:
+            # Very short inputs: keep concise but allow paraphrase
+            max_length = min(20, max(12, int(input_tokens * 0.8)))
+            min_length = max(5, min(8, max_length // 2))
+        else:
+            # Longer inputs: proportional length with sensible caps
+            max_length = min(200, max(40, int(input_tokens * 0.4)))
+            min_length = max(10, min(60, max_length // 3))
 
         result = self._pipe(
             text,
             max_length=max_length,
             min_length=min_length,
+            num_beams=4,
+            no_repeat_ngram_size=3,
+            length_penalty=0.8,
             do_sample=False,
         )
         return result[0]["summary_text"]
