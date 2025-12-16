@@ -1,0 +1,17 @@
+[
+    {
+      "id": "short_pet_profile",
+      "input": "Bella is a 3-year-old indoor cat. She visits the vet once a year and is generally healthy.",
+      "expected": "Bella is a healthy 3-year-old indoor cat with annual vet visits."
+    },
+    {
+      "id": "longer_medical_context",
+      "input": "Charlie is a 7-year-old Labrador with a history of mild hip dysplasia. His owner reports increased stiffness during walks. The vet recommended low-impact exercise and occasional anti-inflammatory medication.",
+      "expected": "Charlie is a 7-year-old Labrador with mild hip dysplasia and increased stiffness; vet recommends low-impact exercise and occasional anti-inflammatories."
+    },
+    {
+      "id": "generic_text",
+      "input": "The quick brown fox jumps over the lazy dog. This sentence is used to test fonts and typing.",
+      "expected": "The quick brown fox jumps over the lazy dog, a common test sentence."
+    }
+]
