@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass(frozen=True)
 class GuardrailsConfig:
     max_input_chars: int = 2_000

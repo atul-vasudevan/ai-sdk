@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 import os
 import uuid
 from pathlib import Path
 
 from dotenv import load_dotenv
-from fastapi import Depends, FastAPI, HTTPException, Header
+from fastapi import Depends, FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
 
 from ai_lib import AIClient
