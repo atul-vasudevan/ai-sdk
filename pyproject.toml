@@ -22,8 +22,59 @@ dev = [
   "pytest",
   "deepeval",
   "rouge-score",
+  "ruff>=0.1.0",
 ]
 
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["ai_lib*"]
+
+# Ruff configuration
+[tool.ruff]
+# Line length (matches formatter)
+line-length = 100
+
+# Exclude directories
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "*.egg-info",
+]
+
+[tool.ruff.lint]
+# Enable common rule sets
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort (import sorting)
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+]
+
+# Ignore specific rules
+ignore = [
+    "E501",  # Line too long (handled by formatter)
+    "B008",  # Do not perform function calls in argument defaults
+    "UP037", # Type annotation quotes (needed for forward references)
+]
+
+[tool.ruff.lint.isort]
+# Use double quotes for imports
+force-single-line = false
+known-first-party = ["ai_lib"]
+
+[tool.ruff.format]
+# Use double quotes
+quote-style = "double"
+# Indent with spaces
+indent-style = "space"
+# Line length
+line-ending = "auto"

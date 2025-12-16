@@ -79,16 +79,43 @@ ai-sdk/
 
 ---
 
+## 🚀 Quick Start
+
+**For detailed setup instructions, see [`docs/GETTING_STARTED.md`](docs/GETTING_STARTED.md)**
+
+### Minimum Setup (3 steps):
+
+```bash
+# 1. Clone and set up
+git clone <repository-url>
+cd ai-sdk
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+make install
+
+# 2. Run the service
+make service-run
+
+# 3. Test it (in another terminal)
+make service-test
+```
+
+---
+
 ## 🚀 Running Locally
 
 ### 1. Install the SDK (Development Mode)
 ```bash
+make install
+# Or manually:
 pip install -e ".[dev]"
+pip install -r service/requirements.txt
 ```
 
 ### 2. Run the Microservice
 ```bash
-pip install -r service/requirements.txt
+make service-run
+# Or manually:
 uvicorn service.app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 

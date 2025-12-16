@@ -1,11 +1,11 @@
 import os
+
 import pytest
-
-from ai_lib import AIClient
-
+from deepeval import assert_test
 from deepeval.metrics import GEval
 from deepeval.test_case import LLMTestCase
-from deepeval import assert_test
+
+from ai_lib import AIClient
 
 
 @pytest.mark.skipif(

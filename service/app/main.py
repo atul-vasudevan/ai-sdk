@@ -5,7 +5,6 @@ from pydantic import BaseModel
 
 from ai_lib import AIClient
 
-
 app = FastAPI(
     title="AI Summarisation Service",
     version="0.1.0",

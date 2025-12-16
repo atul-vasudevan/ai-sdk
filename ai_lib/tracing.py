@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 from contextlib import contextmanager
-from typing import Any, Dict, Optional
+from typing import Any
 
 try:
     from langfuse import Langfuse
@@ -10,10 +10,10 @@ except ImportError:
     Langfuse = None
 
 
-_langfuse_client: Optional["Langfuse"] = None  # type: ignore[name-defined]
+_langfuse_client: "Langfuse" | None = None  # type: ignore[name-defined]
 
 
-def get_langfuse() -> Optional["Langfuse"]:  # type: ignore[name-defined]
+def get_langfuse() -> "Langfuse" | None:  # type: ignore[name-defined]
     """
     Lazily initialise and cache a Langfuse client.
 
@@ -47,8 +47,10 @@ def get_langfuse() -> Optional["Langfuse"]:  # type: ignore[name-defined]
 @contextmanager
 def traced_operation(
     name: str,
-    inputs: Optional[Dict[str, Any]] = None,
-    metadata: Optional[Dict[str, Any]] = None,
+    inputs: dict[str, Any] | None = None,
+    metadata: dict[str, Any] | None = None,
+    usage: dict[str, Any] | None = None,
+    model: str | None = None,
 ):
     """
     Context manager that wraps an operation in a Langfuse trace.

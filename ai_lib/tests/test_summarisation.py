@@ -1,9 +1,9 @@
-import os
 from ai_lib.models.summarisation import (
-    SimpleTextSummariser,
     HFTextSummariser,
+    SimpleTextSummariser,
     get_text_summariser,
 )
+
 
 def test_simple_summariser_returns_non_empty_summary():
     summariser = SimpleTextSummariser()

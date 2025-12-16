@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from ai_lib.tracing import traced_operation
 
-from .models.summarisation import get_text_summariser, TextSummariser
+from .models.summarisation import TextSummariser, get_text_summariser
 
 
 class AIClient:
@@ -15,7 +15,7 @@ class AIClient:
 
     - summarise_text(text): generic text summarisation
 
-    Internally it uses a pluggable summariser implementation and wraps operations in a 
+    Internally it uses a pluggable summariser implementation and wraps operations in a
     traced operation context so that when Langfuse is installed, operations are traced.
     """
 
@@ -23,14 +23,14 @@ class AIClient:
         self.app_name = app_name or "unknown_app"
         self._summariser: TextSummariser = get_text_summariser()
 
-    def health(self) -> Dict[str, Any]:
+    def health(self) -> dict[str, Any]:
         """Simple health check useful in tests and examples."""
         return {"status": "ok", "app_name": self.app_name}
 
     def summarise_text(
         self,
         text: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> str:
         """
         Summarise the given text into a shorter, human-readable form.
@@ -39,7 +39,7 @@ class AIClient:
         :param metadata: Optional metadata dictionary;
         :return: A summary string.
         """
-        combined_metadata: Dict[str, Any] = {"app_name": self.app_name}
+        combined_metadata: dict[str, Any] = {"app_name": self.app_name}
         if metadata:
             combined_metadata.update(metadata)
 

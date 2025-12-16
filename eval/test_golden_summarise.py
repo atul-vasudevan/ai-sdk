@@ -1,12 +1,14 @@
 import json
 import os
+
 import pytest
-from ai_lib.client import AIClient
 from deepeval.scorer import Scorer
+
+from ai_lib.client import AIClient
 
 CASES_PATH = os.path.join(os.path.dirname(__file__), "golden_cases_summarise.json")
 
-with open(CASES_PATH, "r") as f:
+with open(CASES_PATH) as f:
     CASES = json.load(f)
 
 

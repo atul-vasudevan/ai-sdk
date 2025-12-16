@@ -1,7 +1,5 @@
-import os
 from ai_lib import AIClient
 from ai_lib.models.summarisation import SimpleTextSummariser
-from ai_lib import AIClient
 
 
 def test_ai_client_health_returns_expected_structure():

@@ -7,7 +7,7 @@ try:
     from transformers import pipeline
 except Exception:
     pipeline = None  # type: ignore
-  
+
 class TextSummariser(Protocol):
     """Interface for text summarisation backends."""
 
@@ -84,10 +84,10 @@ class HFTextSummariser:
             text,
             max_length=max_length,
             min_length=min_length,
-            num_beams=4,
-            no_repeat_ngram_size=3,
-            length_penalty=0.8,
-            do_sample=False,
+            num_beams=4, # beam search where we are keeping top 4 candidates
+            no_repeat_ngram_size=3, # this will prevent repeating 3-word phrases
+            length_penalty=1, # penalize longer summaries
+            do_sample=False, # prevent sampling from the model. Output will be more deterministic.
         )
         return result[0]["summary_text"]
 
